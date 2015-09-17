@@ -1,0 +1,24 @@
+{
+  "name": "setenta-admin",
+  "version": "1.0.0",
+  "authors": [
+    "p4welo <p4welo@gmail.com>"
+  ],
+  "description": "Setenta dance school administrative application",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#~1.4.6",
+    "angular-ui-router": "~0.2.15",
+    "angularfire": "~1.1.2",
+    "firebase": "~2.2.9",
+    "font-awesome": "~4.4.0"
+  }
+}

@@ -46,6 +46,37 @@ angular.module("setentaAdmin", ['ui.router'])
         $scope.test = "instructorCtrl";
     })
 
-    .controller("roomCtrl", function ($scope) {
+    .controller("roomCtrl", function ($scope, messageFactory) {
         $scope.test = "roomCtrl";
+		$scope.messages = messageFactory.findAll();
+		$scope.newMsg = "";
+		
+		$scope.remove = function(msg) {
+			messageFactory.remove(msg);
+		}
+		$scope.send = function(e) {
+			if (e.keyCode != 13) return;
+			messageFactory.add({
+				author: 'testowy_dupek',
+				text: $scope.newMsg,
+				dateTime: Date.now()
+			});
+			$scope.newMsg = "";
+		}
     })
+	
+	.factory("messageFactory", function($firebaseArray) {
+		var ref = new Firebase('https://shiring-fire-1146.firebaseio.com/messages');
+		var messages = $firebaseArray(ref);
+		return {
+			findAll: function() {
+				return messages;
+			},
+			add: function(message) {
+				messages.$add(message);
+			},
+			remove: function(message) {
+				messages.$remove(message);
+			}
+		}
+	})

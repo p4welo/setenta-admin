@@ -1,3 +1,8 @@
 .sidebar-brand {
     background-color: #d9416c !important;
 }
+
+.table .active td {
+    background-color: #d9416c !important;
+    color: white;
+}

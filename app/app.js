@@ -1,4 +1,4 @@
-angular.module("setentaAdmin", ['ui.router'])
+angular.module("setentaAdmin", ['ui.router', 'firebase'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/courses');
@@ -30,8 +30,9 @@ angular.module("setentaAdmin", ['ui.router'])
         });
     })
 
-    .controller("courseCtrl", function ($scope) {
+    .controller("courseCtrl", function ($scope, $firebaseArray) {
         $scope.test = "courseCtrl";
+        $scope.messages = [];
     })
 
     .controller("styleCtrl", function ($scope) {
@@ -46,17 +47,17 @@ angular.module("setentaAdmin", ['ui.router'])
         $scope.test = "instructorCtrl";
     })
 
-    .controller("roomCtrl", function ($scope, messageFactory) {
+    .controller("roomCtrl", function ($scope, roomFactory) {
         $scope.test = "roomCtrl";
-		$scope.messages = messageFactory.findAll();
+		$scope.messages = roomFactory.findAll();
 		$scope.newMsg = "";
 		
 		$scope.remove = function(msg) {
-			messageFactory.remove(msg);
+			roomFactory.remove(msg);
 		}
 		$scope.send = function(e) {
 			if (e.keyCode != 13) return;
-			messageFactory.add({
+			roomFactory.add({
 				author: 'testowy_dupek',
 				text: $scope.newMsg,
 				dateTime: Date.now()
@@ -65,18 +66,42 @@ angular.module("setentaAdmin", ['ui.router'])
 		}
     })
 	
-	.factory("messageFactory", function($firebaseArray) {
-		var ref = new Firebase('https://shiring-fire-1146.firebaseio.com/messages');
-		var messages = $firebaseArray(ref);
-		return {
-			findAll: function() {
-				return messages;
-			},
-			add: function(message) {
-				messages.$add(message);
-			},
-			remove: function(message) {
-				messages.$remove(message);
-			}
-		}
+	.factory("messageFactory", function(firebaseComponent) {
+        firebaseComponent.init("messages");
+        return firebaseComponent;
+    })
+
+	.factory("roomFactory", function(firebaseComponent) {
+        firebaseComponent.init("rooms");
+        return firebaseComponent;
+    })
+
+	.factory("instructorFactory", function(firebaseComponent) {
+        firebaseComponent.init("instructors");
+        return firebaseComponent;
 	})
+
+	.factory("categoryFactory", function(firebaseComponent) {
+        firebaseComponent.init("categories");
+		return firebaseComponent;
+	})
+
+    .factory("firebaseComponent", function ($firebaseArray) {
+        var FIREBASE = "https://shining-fire-1146.firebaseio.com/setenta";
+        var ref, collection;
+        return {
+            init: function (node) {
+                ref = new Firebase(FIREBASE).child(node);
+                collection = $firebaseArray(ref);
+            },
+            findAll: function() {
+                return collection;
+            },
+            add: function(obj) {
+                collection.$add(obj);
+            },
+            remove: function(obj) {
+                collection.$remove(obj);
+            }
+        }
+    })

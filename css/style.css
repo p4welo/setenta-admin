@@ -1,3 +1,7 @@
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
+
 .sidebar-brand {
     background-color: #d9416c !important;
 }
@@ -5,4 +9,16 @@
 .table .active td {
     background-color: #d9416c !important;
     color: white;
+}
+
+.table-editable tbody td {
+    cursor: pointer;
+}
+
+.sidebar-nav a.active {
+    background-color: #d9416c;
+}
+
+.loading-indicator {
+    overflow-x: hidden;
 }

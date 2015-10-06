@@ -10,7 +10,13 @@ angular.module("setentaAdmin")
     })
 
     .controller("categoryCtrl", function ($scope, categoryFactory) {
-        $scope.categories = categoryFactory.findAll();
+        $scope.loading = true;
+        categoryFactory.findAll().$loaded(
+            function (result) {
+                $scope.categories = result;
+                $scope.loading = false;
+            }
+        );
 
         $scope.sort = {
             column: 'name',
@@ -55,5 +61,6 @@ angular.module("setentaAdmin")
         };
         $scope.delete = function (category) {
             categoryFactory.delete(category);
+            delete $scope.selected;
         };
     });

@@ -10,7 +10,13 @@ angular.module("setentaAdmin")
     })
 
     .controller("instructorCtrl", function ($scope, instructorFactory) {
-        $scope.instructors = instructorFactory.findAll();
+        $scope.loading = true;
+        instructorFactory.findAll().$loaded(
+            function (result) {
+                $scope.instructors = result;
+                $scope.loading = false;
+            }
+        );
 
         $scope.sort = {
             column: 'firstName',
@@ -59,5 +65,6 @@ angular.module("setentaAdmin")
         };
         $scope.delete = function (instructor) {
             instructorFactory.delete(instructor);
+            delete $scope.selected;
         };
     });

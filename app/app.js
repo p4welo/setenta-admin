@@ -4,23 +4,6 @@ angular.module("setentaAdmin", ['ui.router', 'firebase', 'ui.bootstrap'])
         $urlRouterProvider.otherwise('/courses');
     })
 
-    .factory("messageFactory", function ($firebaseArray) {
-        var FIREBASE = "https://shining-fire-1146.firebaseio.com/setenta";
-        var ref = new Firebase(FIREBASE).child("messages");
-        var collection = $firebaseArray(ref);
-        return {
-            findAll: function () {
-                return collection;
-            },
-            save: function (obj) {
-                collection.$add(obj);
-            },
-            delete: function (obj) {
-                collection.$remove(obj);
-            }
-        }
-    })
-
     .factory("roomFactory", function ($firebaseArray) {
         var FIREBASE = "https://shining-fire-1146.firebaseio.com/setenta";
         var ref = new Firebase(FIREBASE).child("rooms");
@@ -89,9 +72,10 @@ angular.module("setentaAdmin", ['ui.router', 'firebase', 'ui.bootstrap'])
         }
     })
 
-    .service("firebaseComponent", function ($firebaseArray) {
+    .factory("styleFactory", function ($firebaseArray) {
         var FIREBASE = "https://shining-fire-1146.firebaseio.com/setenta";
-        var ref, collection;
+        var ref = new Firebase(FIREBASE).child("styles");
+        var collection = $firebaseArray(ref);
         return {
             findAll: function () {
                 return collection;
@@ -104,4 +88,3 @@ angular.module("setentaAdmin", ['ui.router', 'firebase', 'ui.bootstrap'])
             }
         }
     });
-

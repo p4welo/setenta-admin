@@ -1,4 +1,4 @@
-angular.module('activePortal.common')
+angular.module("setentaAdmin")
 
     .directive('loadingIndicator', function () {
         return {

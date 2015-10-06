@@ -10,7 +10,13 @@ angular.module("setentaAdmin")
     })
 
     .controller("roomCtrl", function ($scope, roomFactory) {
-        $scope.rooms = roomFactory.findAll();
+        $scope.loading = true;
+        roomFactory.findAll().$loaded(
+            function (result) {
+                $scope.rooms = result;
+                $scope.loading = false;
+            }
+        );
 
         $scope.sort = {
             column: 'name',
@@ -55,5 +61,6 @@ angular.module("setentaAdmin")
         };
         $scope.delete = function (room) {
             roomFactory.delete(room);
+            delete $scope.selected;
         };
     });

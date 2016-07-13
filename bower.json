@@ -21,6 +21,8 @@
     "angularfire": "~1.1.2",
     "firebase": "~2.2.9",
     "font-awesome": "~4.4.0",
-    "pnotify": "~2.1.0"
+    "pnotify": "~2.1.0",
+    "jquery": "1.11.3",
+    "bootstrap": "latest"
   }
 }
